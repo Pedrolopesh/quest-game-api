@@ -1,5 +1,5 @@
 {
-  "name": "backend-quest",
+  "name": "backend-quest-api",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -9,7 +9,7 @@
     "test": "mocha --exit"
   },
   "keywords": [],
-  "author": "",
+  "author": "Pedro Henrique Lopes",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.19.0",
