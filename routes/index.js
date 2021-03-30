@@ -13,6 +13,7 @@ router.route('/create/humaneDefault/values').post(QuestController.createHumanDef
 router.route('/sever/status').get(IndexController.getSeverStatus)
 
 router.route('/player/create').post(PlayerController.createPlayer)
+router.route('/player/:id').get(PlayerController.getPlayerData)
 
 router.route('/create/matter').post(MatterController.createMatter)
 router.route('/listAll/matter').get(MatterController.listMatter)

@@ -11,9 +11,8 @@ module.exports = {
 
         const player = await Player.findOne({ email:email })
 
-            if(player){
-                res.status(200).send({ success:false, message:"User Alredy exist", registeredUser: player})
-            }
+            if(player) res.status(200).send({ success:false, message:"User Alredy exist", player: player})
+            
         
             else{
 
@@ -28,5 +27,12 @@ module.exports = {
                 
                 res.status(201).send({ success: true, player: savedPlayer })
             }
+        },
+
+        async getPlayerData(req, res){
+            const id = req.params.id;
+            const player = await Player.findById(id).catch(err => { return res.status(400).send({ success: false, message: 'Error on find player', err:err }) })
+            if(!player) return res.status(201).send({ success: true, message:'Player not found' })
+            return res.status(201).send({ success: true, player: player });
         }
     }

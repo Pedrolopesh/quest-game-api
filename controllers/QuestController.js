@@ -197,8 +197,11 @@ module.exports = {
         function getTotal(total, item) {
             return total + (item);
         }
+
+        const finaltotalPoints = parseInt(findPlayer.totalScore) + parseInt(total)
+        
         const currentPlayer = await Player.findByIdAndUpdate(playerId, {
-            totalScore: total
+            totalScore: finaltotalPoints
         }).catch(err => { return res.status(400).send({ success: false, message: 'Error on update player', err:err }) })
         if( !currentPlayer) return res.status(400).send({ success: false, message: 'Error on update player', currentPlayer: currentPlayer })
 
