@@ -2,6 +2,8 @@ const Player = require('../models/Player')
 const Quest = require('../models/Quest')
 const Matter = require('../models/Matter')
 const MathsDefaultData = require('../util/MathsDefaultData');
+const NatureDefaultData = require('../util/NatureDefaultData');
+const HumaneDefaultData = require('../util/HumaneDefaultData');
 
 module.exports = {
     async createQuest(req, res){
@@ -203,7 +205,7 @@ module.exports = {
         return res.status(200).send({ success: true, totalPoint: total, updatedPlayer: currentPlayer });
     },
 
-    async createDefautValues(req, res){
+    async createMathDefautValues(req, res){
         const { matter } = req.body
 
         const queryMatter = await Matter.findById(matter)
@@ -230,17 +232,98 @@ module.exports = {
                     level:defaultMathQuestions[i].level, 
                     points:defaultMathQuestions[i].points
                 })
-                const savedQuest = await newQuest.save()
-                if(!savedQuest || savedQuest.length === '') return res.status(402).send({ success: false, message: 'error at save quest' })
+                const savedQuest1 = await newQuest.save()
+                if(!savedQuest1 || savedQuest1.length === '') return res.status(402).send({ success: false, message: 'error at save quest' })
                 
                 const updatedMatter = await Matter.findByIdAndUpdate(matter, {
-                    $push:{ questions:savedQuest._id }
+                    $push:{ questions:savedQuest1._id }
                 }).catch(err => { return res.status(402).send({ success: false, message: 'error on update Matter', err:err }) })
     
             }
 
-            return res.status(201).send({ success: true, savedQuest: defaultMathQuestions })
+            return res.status(201).send({ success: true, mathQuest: defaultMathQuestions })
             
         }
     },
+
+    async createNatueDefautValues(req, res){
+        const { matter } = req.body
+
+        const queryMatter = await Matter.findById(matter)
+        if(!queryMatter || queryMatter.length){
+            return res.status(400).send({ success: false, message: 'Máteria não encontrada' })
+        }else{
+
+            const defaultNatureQuestions = await NatureDefaultData(matter)
+
+            for(let i = 0; i < defaultNatureQuestions.length; i++){
+                const newQuest = new Quest({
+                    matter:matter,
+                    playerAnswer:[], 
+                    description:defaultNatureQuestions[i].description, 
+                    correctAlternative:defaultNatureQuestions[i].correctAlternative, 
+                    alternatives:[
+                        {option:"A", text:defaultNatureQuestions[i].alternatives[0].text},
+                        {option:"B", text:defaultNatureQuestions[i].alternatives[1].text},
+                        {option:"C", text:defaultNatureQuestions[i].alternatives[2].text},
+                        {option:"D", text:defaultNatureQuestions[i].alternatives[3].text},
+                        {option:"E", text:defaultNatureQuestions[i].alternatives[4].text}
+                    ], 
+                    level:defaultNatureQuestions[i].level, 
+                    points:defaultNatureQuestions[i].points
+                })
+                const savedQuest2 = await newQuest.save()
+                if(!savedQuest2 || savedQuest2.length === '') return res.status(402).send({ success: false, message: 'error at save quest' })
+                
+                const updatedMatter = await Matter.findByIdAndUpdate(matter, {
+                    $push:{ questions:savedQuest2._id }
+                }).catch(err => { return res.status(402).send({ success: false, message: 'error on update Matter', err:err }) })
+    
+            }
+
+            return res.status(201).send({ success: true, natureQuest:defaultNatureQuestions })
+        }
+
+    },
+
+    async createHumanDefautValues(req, res){
+        const { matter } = req.body
+
+        const queryMatter = await Matter.findById(matter)
+        if(!queryMatter || queryMatter.length){
+            return res.status(400).send({ success: false, message: 'Máteria não encontrada' })
+        
+        }else{
+            
+            const defaultHumanQuestions = await HumaneDefaultData(matter)
+
+            for(let i = 0; i < defaultHumanQuestions.length; i++){
+                const newQuest = new Quest({
+                    matter:matter,
+                    playerAnswer:[], 
+                    description:defaultHumanQuestions[i].description, 
+                    correctAlternative:defaultHumanQuestions[i].correctAlternative, 
+                    alternatives:[
+                        {option:"A", text:defaultHumanQuestions[i].alternatives[0].text},
+                        {option:"B", text:defaultHumanQuestions[i].alternatives[1].text},
+                        {option:"C", text:defaultHumanQuestions[i].alternatives[2].text},
+                        {option:"D", text:defaultHumanQuestions[i].alternatives[3].text},
+                        {option:"E", text:defaultHumanQuestions[i].alternatives[4].text}
+                    ], 
+                    level:defaultHumanQuestions[i].level, 
+                    points:defaultHumanQuestions[i].points
+                })
+                const savedQuest3 = await newQuest.save()
+                if(!savedQuest3 || savedQuest3.length === '') return res.status(402).send({ success: false, message: 'error at save quest' })
+                
+                const updatedMatter = await Matter.findByIdAndUpdate(matter, {
+                    $push:{ questions:savedQuest3._id }
+                }).catch(err => { return res.status(402).send({ success: false, message: 'error on update Matter', err:err }) })
+    
+            }
+
+            return res.status(201).send({ success: true, humanQuest:defaultHumanQuestions })
+        }
+
+    }
 }
