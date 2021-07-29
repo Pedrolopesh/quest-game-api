@@ -18,9 +18,14 @@ const PlayerSchema = new mongoose.Schema({
     totalScore: {
         type: Object,
         require: false,
-    },   
+    },
 
     status: {
+        type: String,
+        require: false,
+    },
+
+    confirmCode:{
         type: String,
         require: false,
     },

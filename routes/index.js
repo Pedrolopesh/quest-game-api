@@ -14,6 +14,8 @@ router.route('/sever/status').get(IndexController.getSeverStatus)
 
 router.route('/player/create').post(PlayerController.createPlayer)
 router.route('/player/:id').get(PlayerController.getPlayerData)
+router.route('/player/request/confirm').post(PlayerController.requestConfirmPlayer)
+router.route('/player/confirm').post(PlayerController.confirmPlayerCode)
 
 router.route('/create/matter').post(MatterController.createMatter)
 router.route('/listAll/matter').get(MatterController.listMatter)
