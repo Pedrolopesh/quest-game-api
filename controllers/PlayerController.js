@@ -4,7 +4,6 @@ const nodemailer = require('nodemailer');
 module.exports = {
     async createPlayer(req, res){
 
-        console.log(req.body)
         const { nickname, email } = req.body
         if(!nickname || !email){
             return res.status(400).send({ success: false, message: 'Please fill in all fields' })
@@ -82,7 +81,6 @@ module.exports = {
             })
 
         } else {
-            console.log('info:' + info.response);
             return res.send({
                 success: true,
                 message: 'Email enviado para ' + req.body.email,
@@ -94,7 +92,6 @@ module.exports = {
 
     async confirmPlayerCode(req, res){
         const { code, email } = req.body
-        console.log()
 
         if(!code || !email) return res.status(400).send({ success: false, message: 'Please fill in all fields' })
 
