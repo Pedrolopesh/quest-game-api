@@ -24,7 +24,7 @@ app.use(cors())
 
 // require('./routes/index')
 
-app.listen(port, console.log('Listen port 3333 ...'));
+app.listen(port, console.log(`sever started at: http://localhost:${port}/api/`));
 
 // Routes
 app.use('/api', require('./routes/index'))
