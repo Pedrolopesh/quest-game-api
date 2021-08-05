@@ -88,20 +88,20 @@ module.exports = {
 
         function shuffle(array) {
             var currentIndex = array.length, temporaryValue, randomIndex;
-          
+
             // While there remain elements to shuffle...
             while (0 !== currentIndex) {
-          
+
               // Pick a remaining element...
               randomIndex = Math.floor(Math.random() * currentIndex);
               currentIndex -= 1;
-          
+
               // And swap it with the current element.
               temporaryValue = array[currentIndex];
               array[currentIndex] = array[randomIndex];
               array[randomIndex] = temporaryValue;
             }
-          
+
             return array;
           }
 
@@ -153,8 +153,7 @@ module.exports = {
     async answerAndCalculatePoints(req, res){
         const { firstForm, secondForm, thierdForm, playerId} = req.body
         if( !firstForm || !secondForm || !thierdForm || !playerId) return res.status(400).send({ success: false, message: 'Please fill in all fields' })
-        
-        
+
         // console.log({firstForm: firstForm})
         // console.log({secondForm: secondForm})
         // console.log({thierdForm: thierdForm})
@@ -166,7 +165,7 @@ module.exports = {
         for(let i = 0; i < firstForm.length; i++){
             let correctAlternative = firstForm[i].correctAnswer
             let playerAlternative = firstForm[i].playerOption
-            
+
             if(correctAlternative === playerAlternative){
                 let questPoints = firstForm[i].points
                 totalPoints.push(parseInt(questPoints))
@@ -176,7 +175,7 @@ module.exports = {
         for(let i = 0; i < secondForm.length; i++){
             let correctAlternative = secondForm[i].correctAnswer
             let playerAlternative = secondForm[i].playerOption
-            
+
             if(correctAlternative === playerAlternative){
                 let questPoints = secondForm[i].points
                 totalPoints.push(parseInt(questPoints))
@@ -186,7 +185,7 @@ module.exports = {
         for(let i = 0; i < thierdForm.length; i++){
             let correctAlternative = thierdForm[i].correctAnswer
             let playerAlternative = thierdForm[i].playerOption
-            
+
             if(correctAlternative === playerAlternative){
                 let questPoints = thierdForm[i].points
                 totalPoints.push(parseInt(questPoints))
@@ -199,7 +198,7 @@ module.exports = {
         }
 
         const finaltotalPoints = parseInt(findPlayer.totalScore) + parseInt(total)
-        
+
         const currentPlayer = await Player.findByIdAndUpdate(playerId, {
             totalScore: finaltotalPoints
         }).catch(err => { return res.status(400).send({ success: false, message: 'Error on update player', err:err }) })
@@ -222,30 +221,30 @@ module.exports = {
             for(let i = 0; i < defaultMathQuestions.length; i++){
                 const newQuest = new Quest({
                     matter:matter,
-                    playerAnswer:[], 
-                    description:defaultMathQuestions[i].description, 
-                    correctAlternative:defaultMathQuestions[i].correctAlternative, 
+                    playerAnswer:[],
+                    description:defaultMathQuestions[i].description,
+                    correctAlternative:defaultMathQuestions[i].correctAlternative,
                     alternatives:[
                         {option:"A", text:defaultMathQuestions[i].alternatives[0].text},
                         {option:"B", text:defaultMathQuestions[i].alternatives[1].text},
                         {option:"C", text:defaultMathQuestions[i].alternatives[2].text},
                         {option:"D", text:defaultMathQuestions[i].alternatives[3].text},
                         {option:"E", text:defaultMathQuestions[i].alternatives[4].text}
-                    ], 
-                    level:defaultMathQuestions[i].level, 
+                    ],
+                    level:defaultMathQuestions[i].level,
                     points:defaultMathQuestions[i].points
                 })
                 const savedQuest1 = await newQuest.save()
                 if(!savedQuest1 || savedQuest1.length === '') return res.status(402).send({ success: false, message: 'error at save quest' })
-                
+
                 const updatedMatter = await Matter.findByIdAndUpdate(matter, {
                     $push:{ questions:savedQuest1._id }
                 }).catch(err => { return res.status(402).send({ success: false, message: 'error on update Matter', err:err }) })
-    
+
             }
 
             return res.status(201).send({ success: true, mathQuest: defaultMathQuestions })
-            
+
         }
     },
 

@@ -25,7 +25,7 @@ module.exports = {
 
         auxArryCalcSecondPodium.splice(auxArryCalcSecondPodium.indexOf(max), 1);
         let secondMax = Math.max.apply(null, auxArryCalcSecondPodium);
-        
+
         findThirdMax = (arr) => {
             let [first, second, third] = [-Infinity, -Infinity, -Infinity];
             for (let el of arr) {
@@ -42,7 +42,7 @@ module.exports = {
             };
             return third !== -Infinity ? third : first;
         };
-            
+
         let thierdMax = findThirdMax(auxArryCalcThierdPodium)
 
         const fistPosition = allPlayerPoints.filter((item) => { return item.playerScore === max })
@@ -62,7 +62,7 @@ module.exports = {
         if(fistPosition.length !== 0) firstPodium = fistPosition[fistPosition.length-1]
         if(secondPosition.length !== 0) secondPodium = secondPosition[secondPosition.length-1]
         if(thierdPosition.length !== 0) thierdPodium = thierdPosition[thierdPosition.length-1]
-        
+
         if(fistPosition.length === 0) firstPodium = fistPosition[0]
         if(secondPosition.length === 0) secondPodium = secondPosition[0]
         if(thierdPosition.length === 0) thierdPodium = thierdPosition[0]
